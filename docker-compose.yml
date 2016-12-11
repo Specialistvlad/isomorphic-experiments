@@ -1,0 +1,60 @@
+version: '2'
+
+networks:
+  default:
+    external:
+      name: bridge
+
+services:
+  isomorphic-experiments-mongo:
+    container_name: isomorphic-experiments-mongo
+    build:
+      context: ./
+      dockerfile: ./etc/docker/apps/mongo.Dockerfile
+    image: isomorphic-experiments-mongo
+    restart: always
+    volumes:
+      - './etc/docker/volumes/mongo-data:/data/db'
+    network_mode: bridge
+    logging:
+        options:
+            max-size: '50m'
+
+  isomorphic-experiments-admin-api:
+    container_name: isomorphic-experiments-admin-api
+    depends_on:
+      - isomorphic-experiments-mongo
+    links:
+      - isomorphic-experiments-mongo
+    build:
+      context: ./
+      dockerfile: etc/docker/apps/admin-api.Dockerfile
+    image: isomorphic-experiments-admin-api
+    restart: always
+    env_file:
+      - etc/docker/env
+    environment:
+        - NODE_ENV
+        - CNFG_DMP__SUBMIT_URL
+    network_mode: bridge
+    logging:
+        options:
+            max-size: '50m'
+
+  isomorphic-experiments-nginx:
+    container_name: isomorphic-experiments-nginx
+    depends_on:
+      - isomorphic-experiments-admin-api
+    links:
+      - isomorphic-experiments-admin-api
+    build:
+      context: ./
+      dockerfile: ./etc/docker/apps/nginx.Dockerfile
+    image: isomorphic-experiments-nginx
+    restart: always
+    ports:
+      - '127.0.0.1:8080:8080'
+    network_mode: bridge
+    logging:
+        options:
+            max-size: '50m'
