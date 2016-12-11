@@ -1,7 +1,7 @@
 import './styles/fonts.scss';
 import './styles/index.scss';
 import './styles/materialize.scss';
-// import 'materialize-css/bin/materialize.js';
+import 'materialize-css/bin/materialize.js';
 
 import React, { Component } from 'react';
 import { render } from 'react-dom';

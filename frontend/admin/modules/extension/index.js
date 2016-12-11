@@ -10,7 +10,7 @@ export const consts = {
 	FETCH_PENDING: MAIN_PREFIX+'/FETCH_PENDING',
 	FETCH_SUCCESS: MAIN_PREFIX+'/FETCH_SUCCESS',
 	FETCH_ERROR: MAIN_PREFIX+'/FETCH_ERROR',
-	SUBMIT: MAIN_PREFIX+'/SUBMIT',
+	SUBMIT_PENDING: MAIN_PREFIX+'/SUBMIT_PENDING',
 	SUBMIT_SUCCESS: MAIN_PREFIX+'/SUBMIT_SUCCESS',
 	SUBMIT_ERROR: MAIN_PREFIX+'/SUBMIT_ERROR',
 }
@@ -49,7 +49,7 @@ export default handleActions({
 			result: {},
 		}
 	},
-	[consts.SUBMIT]: (state, action) => {
+	[consts.SUBMIT_PENDING]: (state, action) => {
 		return Object.assign({}, state, {
 			submitStatus: 'pending',
 			submitErrors: null,
